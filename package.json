@@ -1,17 +1,80 @@
 {
-  "name": "strapi-plugin-owner-permissions",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "version": "0.1.0",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "authorization",
+    "ownership"
+  ],
   "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-server": "./strapi-server.js",
+    "./admin-patch": "./admin-patch/index.cjs"
+  },
+  "files": [
+    "strapi-server.js",
+    "admin-patch/index.cjs",
+    "admin-patch/OwnerRules.cjs",
+    "docs/images"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
+    "test:ts:front": "tsc -p admin/tsconfig.json",
+    "test:ts:back": "tsc -p server/tsconfig.json",
+    "test:integration": "node --test test/integration.test.js",
+    "test:admin": "node --test admin-patch/roles-editor.test.cjs"
+  },
   "devDependencies": {
+    "@strapi/design-system": "^2.2.1",
+    "@strapi/icons": "^2.2.1",
     "@strapi/sdk-plugin": "^6.1.1",
-    "typescript": "^6.0.3"
+    "@strapi/strapi": "^5.49.0",
+    "@strapi/typescript-utils": "^5.49.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "prettier": "^3.9.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-intl": "^6.8.9",
+    "react-router-dom": "^6.30.4",
+    "styled-components": "^6.4.3",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@strapi/design-system": "^2.2.1",
+    "@strapi/icons": "^2.2.1",
+    "@strapi/plugin-users-permissions": "^5.49.0",
+    "@strapi/sdk-plugin": "^6.1.1",
+    "@strapi/strapi": "^5.49.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-intl": "^6.8.9",
+    "react-router-dom": "^6.30.4",
+    "styled-components": "^6.4.3"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "owner-permissions",
+    "displayName": "Owner Permissions",
+    "description": "Automatically adds owner-based permissions to Strapi content types, allowing authenticated users to access only records they own."
+  },
+  "name": "@3xweb/strapi-plugin-owner-permissions",
+  "description": "Automatically adds owner-based permissions to Strapi content types, allowing authenticated users to access only records they own.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/3xweb/strapi-plugin-owner-permissions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/3xweb/strapi-plugin-owner-permissions/issues"
+  },
+  "homepage": "https://github.com/3xweb/strapi-plugin-owner-permissions#readme",
+  "author": "Douglas Everbero <douglas@3xweb.site>",
+  "publishConfig": {
+    "access": "public"
   }
 }

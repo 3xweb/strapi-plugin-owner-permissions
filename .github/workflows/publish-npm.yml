@@ -1,0 +1,54 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        strapi: ['5.49.0', '5.62.0', '5.64.0']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install isolated test dependencies
+        env:
+          STRAPI_VERSION: ${{ matrix.strapi }}
+        run: |
+          test_deps="$RUNNER_TEMP/owner-permissions-deps"
+          mkdir -p "$test_deps"
+          npm install --prefix "$test_deps" --no-audit --no-fund \
+            "@strapi/strapi@$STRAPI_VERSION" \
+            "@strapi/plugin-users-permissions@$STRAPI_VERSION" \
+            better-sqlite3@13.2.0
+          echo "STRAPI_TEST_DEPS=$test_deps" >> "$GITHUB_ENV"
+      - run: npm run test:admin
+      - run: npm run test:integration
+
+  publish:
+    if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Check release tag
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: test "$RELEASE_TAG" = "v$(node -p 'require("./package.json").version')"
+      - run: npm install --global npm@11
+      - run: npm publish --access public
