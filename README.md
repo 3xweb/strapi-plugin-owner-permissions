@@ -16,10 +16,18 @@ From your Strapi project, install the package from npm:
 npm install @3xweb/strapi-plugin-owner-permissions
 ```
 
-Enable the plugin in `config/plugins.js`:
+In a JavaScript project, enable the plugin in `config/plugins.js`:
 
 ```js
 module.exports = {
+  'owner-permissions': { enabled: true },
+};
+```
+
+In a TypeScript project, use `config/plugins.ts`:
+
+```ts
+export default {
   'owner-permissions': { enabled: true },
 };
 ```
@@ -34,6 +42,14 @@ and rebuild the admin panel:
 const { withOwnerPermissionsRoleEditor } = require('@3xweb/strapi-plugin-owner-permissions/admin-patch');
 
 module.exports = withOwnerPermissionsRoleEditor;
+```
+
+For TypeScript, use `src/admin/vite.config.ts` instead:
+
+```ts
+import { withOwnerPermissionsRoleEditor } from '@3xweb/strapi-plugin-owner-permissions/admin-patch';
+
+export default withOwnerPermissionsRoleEditor;
 ```
 
 If you already customize the Vite config, pass your final config object to
@@ -78,12 +94,12 @@ many-to-one relation to a Users & Permissions user.
    that identifies the owner. All restricted actions for that role and
    collection use the same field.
 
-![Update with Only own records enabled and owner shown as the owner field](docs/images/owner-permissions-update.jpg)
+![Update with Only own records enabled and owner shown as the owner field](https://cdn.jsdelivr.net/npm/@3xweb/strapi-plugin-owner-permissions@0.1.0/docs/images/owner-permissions-update.jpg)
 
 A different action in the same collection can keep native access. In this
 example, **Find** is enabled for the role and **Only own records** is off.
 
-![Find with the native permission enabled and Only own records off](docs/images/owner-permissions-find.jpg)
+![Find with the native permission enabled and Only own records off](https://cdn.jsdelivr.net/npm/@3xweb/strapi-plugin-owner-permissions@0.1.0/docs/images/owner-permissions-find.jpg)
 
 Ownership is configured per role, collection, and core action. Actions with
 **Only own records** enabled are limited to the caller's records. Other actions

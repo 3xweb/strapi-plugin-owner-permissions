@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "strapi",
     "strapi-plugin",
@@ -10,11 +10,15 @@
   "exports": {
     "./package.json": "./package.json",
     "./strapi-server": "./strapi-server.js",
-    "./admin-patch": "./admin-patch/index.cjs"
+    "./admin-patch": {
+      "types": "./admin-patch/index.d.cts",
+      "default": "./admin-patch/index.cjs"
+    }
   },
   "files": [
     "strapi-server.js",
     "admin-patch/index.cjs",
+    "admin-patch/index.d.cts",
     "admin-patch/OwnerRules.cjs",
     "docs/images"
   ],
@@ -54,7 +58,8 @@
     "react-dom": "^18.3.1",
     "react-intl": "^6.8.9",
     "react-router-dom": "^6.30.4",
-    "styled-components": "^6.4.3"
+    "styled-components": "^6.4.3",
+    "vite": "^5.4.0 || ^6.0.0"
   },
   "strapi": {
     "kind": "plugin",
